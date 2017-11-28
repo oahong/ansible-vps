@@ -1,0 +1,10 @@
+---
+- name: restart shadowsocks
+  service:
+    name: shadowsocks-libev-server@'{{ ansible_hostname }}'
+    state: restarted
+
+- name: restart kcptun via supervisorctl
+  supervisorctl:
+    name: kcptun
+    state: restarted

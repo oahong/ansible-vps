@@ -1,0 +1,27 @@
+---
+
+- name: Setup authorized_keys
+  authorized_key:
+    user: '{{ remote_user }}'
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - public_keys/deepin-laptop
+    - public_keys/snowball
+
+- name: Create home index directory
+  file:
+    path: '{{ ansible_env.HOME }}/public'
+    state: directory
+    mode: 0755
+
+- name: Enable debian backports
+  template:
+    src: backports.j2
+    dest: /etc/apt/sources.list.d/backports.list
+    mode: 0644
+  notify:
+    - update apt cache
+  become: yes
+
+- { include_tasks: sysctl.yml, become: yes }

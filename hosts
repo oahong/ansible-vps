@@ -1,0 +1,3 @@
+[fqservers]
+gcpx ansible_host=gcpx
+gcpz ansible_host=gcpz

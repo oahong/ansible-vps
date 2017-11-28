@@ -1,0 +1,2 @@
+---
+firewall_local_network: 10.140.0.0/32

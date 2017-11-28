@@ -1,0 +1,7 @@
+---
+
+- hosts: fqservers
+  roles:
+    - { role: common, tags: always }
+    - { role: firewall, become: yes, tags: fw }
+    - { role: ss, become: yes, tags: ss }

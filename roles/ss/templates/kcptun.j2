@@ -1,0 +1,6 @@
+[program:kcptun]
+command=/usr/bin/kcptun-server --crypt {{ vault_kcp_enc }} --nocomp --key "{{ vault_kcp_key }}" -l :{{ vault_kcp_port }} -t 127.0.0.1:{{ vault_shadowsocks_port }}
+autorestart=true
+autostart=true
+stderr_logfile=/var/log/kcp.log
+stderr_logfile_maxbytes=10MB
