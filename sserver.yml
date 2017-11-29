@@ -1,7 +1,15 @@
 ---
 
 - hosts: fqservers
-  roles:
-    - { role: common, tags: always }
-    - { role: firewall, become: yes, tags: fw }
-    - { role: ss, become: yes, tags: ss }
+  tasks:
+  - import_role:
+      name: common
+    tags: always
+  - import_role:
+      name: firewall
+    become: yes
+    tags: fw
+  - import_role:
+      name: ss
+    become: yes
+    tags: ss
