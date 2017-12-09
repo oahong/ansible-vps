@@ -1,4 +1,4 @@
----    
+---
 - name: Use BBR congestion control algorithm
   sysctl:
     name: '{{ item.key }}'
