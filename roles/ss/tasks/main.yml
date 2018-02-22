@@ -18,6 +18,10 @@
     - { port: '{{ vault_shadowsocks_port }}', proto: tcp }
     - { port: '{{ vault_kcp_port }}', proto: udp }
 
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: Install shadowsocks related packages from backports repository
   apt:
@@ -33,7 +37,7 @@
   notify:
     - restart shadowsocks
 
-- name: Make sure ss service is enabled and started
+- name: Enable and start ss services
   service:
     name: '{{ item }}'
     state: started

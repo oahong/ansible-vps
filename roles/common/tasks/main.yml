@@ -20,8 +20,6 @@
     src: backports.j2
     dest: /etc/apt/sources.list.d/backports.list
     mode: 0644
-  notify:
-    - update apt cache
   become: yes
 
 - { include_tasks: sysctl.yml, become: yes }
