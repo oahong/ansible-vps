@@ -1,3 +1,4 @@
 gce*
 vault-pass
 *.retry
+.vagrant
