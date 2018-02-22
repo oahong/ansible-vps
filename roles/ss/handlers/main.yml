@@ -3,8 +3,10 @@
   service:
     name: shadowsocks-libev-server@'{{ ansible_hostname }}'
     state: restarted
+  become: yes
 
 - name: restart kcptun via supervisorctl
   supervisorctl:
     name: kcptun
     state: restarted
+  become: yes
