@@ -5,17 +5,26 @@
     msg: '{{ vault_shadowsocks_port }} {{ vault_kcp_port }}'
     verbosity: 2
 
-- name: Accept some tcp connections
+- name: Add kcptun port to firewall whitelist
   iptables:
     chain: INPUT
     ctstate: NEW
-    match: '{{ item.proto }}'
-    protocol: '{{ item.proto }}'
+    match: udp
+    protocol: udp
     in_interface: eth0
-    destination_port: '{{ item.port }}'
+    destination_port: '{{ vault_kcp_port }}'
     jump: ACCEPT
-  with_items:
-    - { port: '{{ vault_kcp_port }}', proto: udp }
+
+- name: Remove ss port from firewall whitelist
+  iptables:
+    chain: INPUT
+    ctstate: NEW
+    match: tcp
+    protocol: tcp
+    in_interface: eth0
+    destination_port: '{{ vault_shadowsocks_port }}'
+    jump: ACCEPT
+    state: absent
 
 - name: Update apt cache
   apt:
