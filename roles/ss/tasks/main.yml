@@ -15,7 +15,6 @@
     destination_port: '{{ item.port }}'
     jump: ACCEPT
   with_items:
-    - { port: '{{ vault_shadowsocks_port }}', proto: tcp }
     - { port: '{{ vault_kcp_port }}', proto: udp }
 
 - name: Update apt cache
