@@ -2,7 +2,7 @@
 
 - name: debug output of extra_ports
   debug:
-    msg: '{{ vault_shadowsocks_port }} {{ vault_kcp_port }}'
+    msg: "{{ vault_shadowsocks_port }} {{ vault_kcp_port }}"
     verbosity: 2
 
 - name: Add kcptun port to firewall whitelist
@@ -12,7 +12,7 @@
     match: udp
     protocol: udp
     in_interface: eth0
-    destination_port: '{{ vault_kcp_port }}'
+    destination_port: "{{ vault_kcp_port }}"
     jump: ACCEPT
 
 - name: Remove ss port from firewall whitelist
@@ -22,7 +22,7 @@
     match: tcp
     protocol: tcp
     in_interface: eth0
-    destination_port: '{{ vault_shadowsocks_port }}'
+    destination_port: "{{ vault_shadowsocks_port }}"
     jump: ACCEPT
     state: absent
 
@@ -33,25 +33,25 @@
 
 - name: Install shadowsocks related packages from backports repository
   apt:
-    name: '{{ item }}'
-    default_release: '{{ ansible_distribution_release }}-backports'
+    name: "{{ item }}"
+    default_release: "{{ ansible_distribution_release }}-backports"
     state: latest
-  with_items: '{{ ss_packages }}'
+  with_items: "{{ ss_packages }}"
 
 - name: configure shadowsocks
   template:
     src: config.j2
-    dest: '/etc/shadowsocks-libev/{{ ansible_hostname }}.json'
+    dest: "/etc/shadowsocks-libev/{{ ansible_hostname }}.json"
   notify:
     - restart shadowsocks
 
 - name: Enable and start ss services
   service:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: started
     enabled: true
   with_items:
-    - 'shadowsocks-libev-server@{{ ansible_hostname }}'
+    - "shadowsocks-libev-server@{{ ansible_hostname }}"
     - supervisor
 
 - name: configure supervisor
