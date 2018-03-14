@@ -26,4 +26,5 @@
   block:
     - include_tasks: sysctl.yml
     - include_tasks: sshd.yml
+    - include_tasks: packages.yml
   become: yes

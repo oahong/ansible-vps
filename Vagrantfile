@@ -20,7 +20,8 @@ Vagrant.configure("2") do |config|
     ansible.vault_password_file = "vault-pass"
     ansible.extra_vars = {
       "remote_user" => "vagrant",
-      "vault_common_sshd_port" => "22"
+      "vault_common_sshd_port" => "22",
+      "vault_mosh_port_range" => "60000:61000"
     }
     ansible.groups = {
       "fqservers" => ["gcpx"]

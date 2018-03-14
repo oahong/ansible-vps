@@ -1,0 +1,7 @@
+---
+
+- name: Install common utilities
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ common_packages }}"

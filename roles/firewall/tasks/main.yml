@@ -26,18 +26,19 @@
     - 22
     - 80
 
-- name: Accept some tcp connections
+- name: Open public service ports
   iptables:
     chain: INPUT
     ctstate: NEW
-    match: tcp
-    protocol: tcp
+    match: "{{ item.proto|default('tcp') }}"
+    protocol: "{{ item.proto|default('tcp') }}"
     in_interface: eth0
-    destination_port: "{{ item }}"
+    destination_port: "{{ item.port }}"
     jump: ACCEPT
   with_items:
-    - "{{ vault_common_sshd_port }}"
-    - 443
+    - { port: 443 }
+    - { port: "{{ vault_common_sshd_port }}" }
+    - { port: "{{ vault_mosh_port_range }}", proto: udp }
 
 - name: Set INPUT policy
   iptables:
