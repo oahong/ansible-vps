@@ -22,4 +22,8 @@
     mode: 0644
   become: yes
 
-- { include_tasks: sysctl.yml, become: yes }
+- name: Load extra config
+  block:
+    - include_tasks: sysctl.yml
+    - include_tasks: sshd.yml
+  become: yes

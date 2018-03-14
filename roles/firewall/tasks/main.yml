@@ -12,7 +12,20 @@
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
 
-# todo: Only ips in whitelist can access ssh port
+- name: Remove plain ports from firewall whitelist
+  iptables:
+    chain: INPUT
+    ctstate: NEW
+    match: tcp
+    protocol: tcp
+    in_interface: eth0
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    state: absent
+  with_items:
+    - 22
+    - 80
+
 - name: Accept some tcp connections
   iptables:
     chain: INPUT
@@ -20,11 +33,10 @@
     match: tcp
     protocol: tcp
     in_interface: eth0
-    destination_port: '{{ item }}'
+    destination_port: "{{ item }}"
     jump: ACCEPT
   with_items:
-    - 22
-    - 80
+    - "{{ vault_common_sshd_port }}"
     - 443
 
 - name: Set INPUT policy
@@ -39,8 +51,8 @@
 
 - name: setup iptables network hooks
   copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0755
   with_items:
     - { src: iptables.preup, dest: /etc/network/if-pre-up.d/iptables }
